@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TestTaskArkanit</string>
+    <string name="hint_text_search">Enter a request</string>
 </resources>
