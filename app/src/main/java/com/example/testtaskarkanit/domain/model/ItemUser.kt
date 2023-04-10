@@ -1,4 +1,4 @@
-package com.example.testtaskarkanit.domain.model.user
+package com.example.testtaskarkanit.domain.model
 
 import android.os.Parcelable
 import com.squareup.moshi.JsonClass
@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class Item(
+data class ItemUser(
     val login: String,
     val avatarUrl: String,
     val htmlUrl: String,
