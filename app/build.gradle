@@ -47,12 +47,13 @@ def kotlinVersion = "1.9.0"
 def hiltVersion = "2.44.2"
 def retrofitVersion = "2.9.0"
 def okHttpVersion = "4.9.3"
-def moshiVersion = "1.13.0"
+def moshiVersion = "1.14.0"
 def coroutinesVersion = "1.6.4"
 def navGraphVersion = "2.5.3"
 def bindingDelegateVersion = "1.5.6"
 def glideVersion = "4.15.0"
 def loggingInterceptorVersion = "4.9.3"
+def browserVersion = "1.5.0"
 
 dependencies {
     // Hilt
@@ -87,6 +88,9 @@ dependencies {
 
     // Logging interceptor
     implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptorVersion"
+
+    // ChromeTabs
+    implementation "androidx.browser:browser:$browserVersion"
 
     // Material design
     implementation 'com.google.android.material:material:1.8.0'

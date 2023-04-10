@@ -1,7 +1,7 @@
 package com.example.testtaskarkanit.data.network
 
-import com.example.testtaskarkanit.data.network.model.repo.RepoResponse
-import com.example.testtaskarkanit.data.network.model.user.UserResponse
+import com.example.testtaskarkanit.data.network.model.RepoResponse
+import com.example.testtaskarkanit.data.network.model.UserResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

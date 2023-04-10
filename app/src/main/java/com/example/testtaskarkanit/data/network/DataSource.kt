@@ -1,8 +1,8 @@
 package com.example.testtaskarkanit.data.network
 
 import com.example.testtaskarkanit.data.network.model.toDomain
-import com.example.testtaskarkanit.domain.model.repo.Repo
-import com.example.testtaskarkanit.domain.model.user.User
+import com.example.testtaskarkanit.domain.model.Repo
+import com.example.testtaskarkanit.domain.model.User
 import javax.inject.Inject
 
 class DataSource @Inject constructor(

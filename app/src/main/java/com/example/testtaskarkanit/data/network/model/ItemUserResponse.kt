@@ -1,4 +1,4 @@
-package com.example.testtaskarkanit.data.network.model.user
+package com.example.testtaskarkanit.data.network.model
 
 import android.os.Parcelable
 import com.squareup.moshi.Json
@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class ItemResponse(
+data class ItemUserResponse(
     @Json(name = "login")
     val login: String? = null,
     @Json(name = "avatar_url")

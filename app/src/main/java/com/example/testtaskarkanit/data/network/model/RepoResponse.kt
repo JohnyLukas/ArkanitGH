@@ -1,4 +1,4 @@
-package com.example.testtaskarkanit.data.network.model.user
+package com.example.testtaskarkanit.data.network.model
 
 import android.os.Parcelable
 import com.squareup.moshi.Json
@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class UserResponse(
+data class RepoResponse(
     @Json(name = "items")
-    val items: List<ItemResponse>? = null
+    val items: List<ItemRepoResponse>? = null
 ) : Parcelable

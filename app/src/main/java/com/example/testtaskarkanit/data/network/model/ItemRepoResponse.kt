@@ -1,4 +1,4 @@
-package com.example.testtaskarkanit.data.network.model.repo
+package com.example.testtaskarkanit.data.network.model
 
 import android.os.Parcelable
 import com.squareup.moshi.Json

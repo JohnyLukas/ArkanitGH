@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">TestTaskArkanit</string>
     <string name="hint_text_search">Enter a request</string>
+    <string name="username_hint">Username</string>
+    <string name="forks_count_hint">77</string>
+    <string name="score_count_hint">0.0</string>
+    <string name="avatar_content">avatar</string>
+    <string name="name_repo">Name repo</string>
+    <string name="description_hint">Description</string>
+    <string name="forks">forks</string>
+    <string name="some_error_message">Some error message</string>
+    <string name="refresh_button_text">refresh</string>
 </resources>
