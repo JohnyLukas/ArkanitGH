@@ -11,13 +11,15 @@ android {
     namespace 'com.example.testtaskarkanit'
     compileSdk 33
 
+    def BASE_URL = "BASE_URL"
+
     defaultConfig {
         applicationId "com.example.testtaskarkanit"
         minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        buildConfigField "String", BASE_URL, "\"https://api.github.com/\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -41,17 +43,17 @@ android {
         correctErrorTypes true
     }
 }
-def kotlinVersion = "1.10.0"
+def kotlinVersion = "1.9.0"
 def hiltVersion = "2.44.2"
 def retrofitVersion = "2.9.0"
 def okHttpVersion = "4.9.3"
-def moshiVersion = "1.13.0"
+def moshiVersion = "1.14.0"
 def coroutinesVersion = "1.6.4"
 def navGraphVersion = "2.5.3"
 def bindingDelegateVersion = "1.5.6"
 def glideVersion = "4.15.0"
 def loggingInterceptorVersion = "4.9.3"
-def materialVersion = "1.8.0"
+def browserVersion = "1.5.0"
 
 dependencies {
     // Hilt
@@ -87,8 +89,11 @@ dependencies {
     // Logging interceptor
     implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptorVersion"
 
+    // ChromeTabs
+    implementation "androidx.browser:browser:$browserVersion"
+
     // Material design
-    implementation "com.google.android.material:$materialVersion"
+    implementation 'com.google.android.material:material:1.8.0'
 
     // Kotlin
     implementation "androidx.core:core-ktx:$kotlinVersion"
