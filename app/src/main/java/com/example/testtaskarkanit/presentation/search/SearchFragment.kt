@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -19,18 +20,24 @@ import kotlinx.coroutines.launch
 class SearchFragment : BaseFragment(R.layout.fragment_search) {
     override val viewModel: SearchViewModel by viewModels()
     private val binding: FragmentSearchBinding by viewBinding()
-    private val adapter = Adapter()
+    private val searchAdapter = SearchAdapter{ repo ->
+        findNavController().navigate(
+            SearchFragmentDirections.actionShowRepositoryContent(
+                repo.ownerUI!!.login,
+                repo.name
+            )
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?): Unit = with(binding) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.layoutManager =
-            LinearLayoutManager(root.context, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = adapter
+            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        recyclerView.adapter = searchAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel
-                    .handleErrorInput.collect { exception ->
+                viewModel.handleErrorInput.collect { exception ->
                         exception?.let {
                             searchInput.error = it
                         }
@@ -41,7 +48,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.listItems.collect { listItems ->
-                    adapter.submitList(listItems)
+                    searchAdapter.submitList(listItems)
                 }
             }
         }

@@ -10,4 +10,6 @@
     <string name="forks">forks</string>
     <string name="some_error_message">Some error message</string>
     <string name="refresh_button_text">refresh</string>
+    <string name="folder">folder</string>
+    <string name="file">file</string>
 </resources>

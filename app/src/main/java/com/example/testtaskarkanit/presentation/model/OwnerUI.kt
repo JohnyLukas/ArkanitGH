@@ -1,4 +1,4 @@
-package com.example.testtaskarkanit.domain.model
+package com.example.testtaskarkanit.presentation.model
 
 import android.os.Parcelable
 import com.squareup.moshi.JsonClass
@@ -6,6 +6,6 @@ import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class User(
-    val items: List<ItemUser>
+data class OwnerUI(
+    val login: String
 ) : Parcelable

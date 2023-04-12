@@ -10,5 +10,6 @@ data class ItemRepoUI(
     val name: String,
     val description: String,
     val forksCount: Int,
-    val htmlUrl: String
+    val htmlUrl: String,
+    val ownerUI: OwnerUI?
 ) : ItemsUI(), Parcelable
