@@ -15,19 +15,6 @@
         android:layout_height="wrap_content"
         android:background="#00FEFEFE">
 
-        <!--<ImageView
-            android:id="@+id/avatarView"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:contentDescription="@string/avatar_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />-->
-
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/avatarView"
             android:layout_width="70dp"

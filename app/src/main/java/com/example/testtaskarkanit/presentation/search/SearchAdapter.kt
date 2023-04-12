@@ -15,33 +15,31 @@ import com.example.testtaskarkanit.presentation.model.ItemRepoUI
 import com.example.testtaskarkanit.presentation.model.ItemUserUI
 import com.example.testtaskarkanit.presentation.model.ItemsUI
 
-class Adapter : ListAdapter<ItemsUI, ViewHolder>(ItemsDiffUtils) {
-    //private val itemList: MutableList<ItemsUI> = ArrayList()
-
-    enum class VTYPE {
+class SearchAdapter(
+    private val onRepoClicked: (ItemRepoUI) -> Unit
+) : ListAdapter<ItemsUI, ViewHolder>(SearchDiffUtils) {
+    enum class ViewType {
         USER, REPO
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is ItemUserUI -> VTYPE.USER.ordinal
-            is ItemRepoUI -> VTYPE.REPO.ordinal
+            is ItemUserUI -> ViewType.USER.ordinal
+            is ItemRepoUI -> ViewType.REPO.ordinal
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        /*val binding = ListItemUserBinding.inflate(inflater, parent, false)
-        return UserViewHolder(binding)*/
         return when (viewType) {
-            VTYPE.USER.ordinal -> UserViewHolder(
+            ViewType.USER.ordinal -> UserViewHolder(
                 ListItemUserBinding.bind(
                     inflater.inflate(
                         R.layout.list_item_user, parent, false
                     )
                 )
             )
-            VTYPE.REPO.ordinal -> RepoViewHolder(
+            ViewType.REPO.ordinal -> RepoViewHolder(
                 ListItemRepoBinding.bind(
                     inflater.inflate(
                         R.layout.list_item_repo, parent, false
@@ -53,8 +51,6 @@ class Adapter : ListAdapter<ItemsUI, ViewHolder>(ItemsDiffUtils) {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        /*val items = itemList[position]
-        holder.bind(items)*/
         when (holder) {
             is UserViewHolder -> holder.bind(model = (getItem(position) as ItemUserUI))
             is RepoViewHolder -> holder.bind(model = (getItem(position) as ItemRepoUI))
@@ -91,14 +87,13 @@ class Adapter : ListAdapter<ItemsUI, ViewHolder>(ItemsDiffUtils) {
             descriptionText.text = model.description
             forksCount.text = model.forksCount.toString()
             root.setOnClickListener {
-                TODO()
+                this@SearchAdapter.onRepoClicked(model)
             }
         }
     }
 }
 
-object ItemsDiffUtils : DiffUtil.ItemCallback<ItemsUI>() {
-
+object SearchDiffUtils : DiffUtil.ItemCallback<ItemsUI>() {
     override fun areItemsTheSame(oldItem: ItemsUI, newItem: ItemsUI) =
         oldItem.getItemId() == newItem.getItemId()
 

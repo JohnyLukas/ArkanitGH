@@ -1,4 +1,4 @@
-package com.example.testtaskarkanit.domain.model
+package com.example.testtaskarkanit.domain.model.repo
 
 import android.os.Parcelable
 import com.squareup.moshi.JsonClass
@@ -10,5 +10,6 @@ data class ItemRepo(
     val name: String,
     val description: String,
     val forksCount: Int,
-    val htmlUrl: String
+    val htmlUrl: String,
+    val owner: Owner?
 ) : Parcelable

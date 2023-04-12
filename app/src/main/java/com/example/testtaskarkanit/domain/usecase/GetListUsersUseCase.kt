@@ -1,7 +1,7 @@
 package com.example.testtaskarkanit.domain.usecase
 
 import com.example.testtaskarkanit.data.network.DataSource
-import com.example.testtaskarkanit.domain.model.User
+import com.example.testtaskarkanit.domain.model.user.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

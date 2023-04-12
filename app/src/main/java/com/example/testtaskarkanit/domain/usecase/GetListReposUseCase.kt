@@ -1,7 +1,7 @@
 package com.example.testtaskarkanit.domain.usecase
 
 import com.example.testtaskarkanit.data.network.DataSource
-import com.example.testtaskarkanit.domain.model.Repo
+import com.example.testtaskarkanit.domain.model.repo.Repo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,7 +14,7 @@ class GetListReposUseCase @Inject constructor(
     override val dispatcher: CoroutineDispatcher
 ) : BaseUseCase<GetListReposUseCaseParam, Repo> {
     override fun execute(param: GetListReposUseCaseParam): Flow<Result<Repo>> = flow {
-        val responseRepos = dataSource.gerRepos(param.request)
+        val responseRepos = dataSource.getRepos(param.request)
         emit(Result.success(responseRepos))
     }
 
