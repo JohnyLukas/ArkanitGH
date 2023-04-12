@@ -12,4 +12,6 @@
     <string name="refresh_button_text">refresh</string>
     <string name="folder">folder</string>
     <string name="file">file</string>
+    <string name="text_error">Text Error</string>
+    <string name="refresh">Refresh</string>
 </resources>

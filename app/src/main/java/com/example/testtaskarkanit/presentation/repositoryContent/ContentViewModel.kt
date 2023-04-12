@@ -18,8 +18,15 @@ import javax.inject.Inject
 class ContentViewModel @Inject constructor(
     private val getRepoContentUseCase: GetRepoContentUseCase
 ) : BaseViewModel() {
+    private val _errorNetwork: MutableStateFlow<NetworkException?> = MutableStateFlow(null)
+    val errorNetwork: StateFlow<NetworkException?> = _errorNetwork.asStateFlow()
+
     private val _listContent: MutableStateFlow<List<RepoContentItemUI>?> = MutableStateFlow(null)
     val listContent: StateFlow<List<RepoContentItemUI>?> = _listContent.asStateFlow()
+
+    private fun discardError() {
+        _errorNetwork.value = null
+    }
 
     fun getListContent(owner: String, repo: String, path: String) {
         viewModelScope.launch {
@@ -31,9 +38,14 @@ class ContentViewModel @Inject constructor(
                 result.onSuccess { content ->
                     _listContent.value = content.map { it.toUI() }.sortedBy { it.type.ordinal }
                 }.onFailure { throwable ->
-                    _handlerError.value = throwable.localizedMessage?.let {
+                    _errorNetwork.value = throwable.localizedMessage?.let {
                         NetworkException(
-                            description = throwable.message.toString()
+                            title = throwable.message.toString(),
+                            description = throwable.toString(),
+                            retryAction = {
+                                getListContent(owner, repo, path)
+                                discardError()
+                            }
                         )
                     }
                 }

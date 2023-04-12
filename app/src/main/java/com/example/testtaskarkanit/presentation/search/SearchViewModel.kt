@@ -25,6 +25,9 @@ class SearchViewModel @Inject constructor(
     private val _handleErrorInput: MutableStateFlow<String?> = MutableStateFlow(null)
     val handleErrorInput: StateFlow<String?> = _handleErrorInput.asStateFlow()
 
+    private val _errorNetwork: MutableStateFlow<NetworkException?> = MutableStateFlow(null)
+    val errorNetwork: StateFlow<NetworkException?> = _errorNetwork.asStateFlow()
+
     private val _listItems: MutableStateFlow<List<ItemsUI>?> = MutableStateFlow(null)
     val listItems: StateFlow<List<ItemsUI>?> = _listItems.asStateFlow()
 
@@ -32,9 +35,9 @@ class SearchViewModel @Inject constructor(
         when {
             requestText == null -> _handleErrorInput.value = "Please enter request"
             requestText.isDigitsOnly() -> _handleErrorInput.value = "Please check your input"
-            requestText.length < 3 -> _handleErrorInput.value =
+            requestText.length <= 3 -> _handleErrorInput.value =
                 "Please enter more than 3 characters"
-            requestText.length > 16 -> _handleErrorInput.value = "Too many characters entered"
+            requestText.length >= 16 -> _handleErrorInput.value = "Too many characters entered"
             else -> {
                 mergeFLow(requestText)
             }
@@ -43,6 +46,10 @@ class SearchViewModel @Inject constructor(
 
     fun cleanList() {
         _listItems.value = null
+    }
+
+    private fun discardError() {
+        _errorNetwork.value = null
     }
 
     private fun mergeFLow(request: String) {
@@ -60,20 +67,23 @@ class SearchViewModel @Inject constructor(
                 result.first.onSuccess { users ->
                     _listItems.value = _listItems.value.orEmpty() + users.items.map { it.toUI() }
                 }.onFailure { throwable ->
-                    _handlerError.value = throwable.localizedMessage?.let {
-                        NetworkException(
-                            description = throwable.message.toString(),
-                        )
-                    }
+                    _errorNetwork.value = NetworkException(
+                        title = throwable.message.toString(),
+                        description = throwable.toString(),
+                        retryAction = { checkInputError(request) }
+                    )
                 }
                 result.second.onSuccess { repos ->
                     _listItems.value = _listItems.value.orEmpty() + repos.items.map { it.toUI() }
                 }.onFailure { throwable ->
-                    _handlerError.value = throwable.localizedMessage?.let {
-                        NetworkException(
-                            description = throwable.message.toString()
-                        )
-                    }
+                    _errorNetwork.value = NetworkException(
+                        title = throwable.message.toString(),
+                        description = throwable.toString(),
+                        retryAction = {
+                            checkInputError(request)
+                            discardError()
+                        }
+                    )
                 }
             }
         }

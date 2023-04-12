@@ -15,6 +15,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.testtaskarkanit.R
 import com.example.testtaskarkanit.databinding.RepositoryContentBinding
 import com.example.testtaskarkanit.presentation.base.BaseFragment
+import com.example.testtaskarkanit.presentation.main.UIStateHandler
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -69,13 +70,22 @@ class ContentFragment : BaseFragment(R.layout.repository_content) {
             }
         }
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.errorNetwork.collect { exception ->
+                    exception?.let{ (activity as UIStateHandler).showError(it) }
+                    if (exception == null) (activity as UIStateHandler).hideError(false)
+                }
+            }
+        }
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
+                    (activity as UIStateHandler).hideError(false)
                     onBack()
                 }
             }
         )
-
     }
 }
