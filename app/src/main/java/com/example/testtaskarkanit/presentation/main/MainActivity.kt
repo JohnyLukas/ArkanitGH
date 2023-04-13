@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.testtaskarkanit.R
-import com.example.testtaskarkanit.data.network.common.NetworkException
 import com.example.testtaskarkanit.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity(), UIStateHandler {
         setContentView(R.layout.activity_main)
     }
 
-    override fun showError(error: NetworkException) = with(binding) {
+    override fun showError(error: ThisFragmentUIState.NetworkError) = with(binding) {
         errorMessageText.text = error.title
         errorRoot.isVisible = true
         retryButton.setOnClickListener {
