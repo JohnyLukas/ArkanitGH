@@ -6,9 +6,9 @@ import com.example.testtaskarkanit.data.network.common.NetworkException
 import com.example.testtaskarkanit.domain.model.repo.Repo
 import com.example.testtaskarkanit.domain.model.user.User
 import com.example.testtaskarkanit.domain.model.toUI
-import com.example.testtaskarkanit.domain.usecase.GetListReposUseCase
+import com.example.testtaskarkanit.domain.usecase.GetListReposFlowUseCase
 import com.example.testtaskarkanit.domain.usecase.GetListReposUseCaseParam
-import com.example.testtaskarkanit.domain.usecase.GetListUsersUseCase
+import com.example.testtaskarkanit.domain.usecase.GetListUsersFlowUseCase
 import com.example.testtaskarkanit.domain.usecase.GetListUsersUseCaseParam
 import com.example.testtaskarkanit.presentation.base.BaseViewModel
 import com.example.testtaskarkanit.presentation.model.ItemsUI
@@ -19,8 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getListUsersUseCase: GetListUsersUseCase,
-    private val getListReposUseCase: GetListReposUseCase
+    private val getListUsersUseCase: GetListUsersFlowUseCase,
+    private val getListReposUseCase: GetListReposFlowUseCase
 ) : BaseViewModel() {
     private val _handleErrorInput: MutableStateFlow<String?> = MutableStateFlow(null)
     val handleErrorInput: StateFlow<String?> = _handleErrorInput.asStateFlow()

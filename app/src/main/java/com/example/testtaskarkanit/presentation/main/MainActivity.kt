@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity(), UIStateHandler {
     }
 
     override fun showError(error: NetworkException) = with(binding) {
-        super.showError(error)
         errorMessageText.text = error.title
         errorRoot.isVisible = true
         retryButton.setOnClickListener {
@@ -33,7 +32,14 @@ class MainActivity : AppCompatActivity(), UIStateHandler {
     }
 
     override fun hideError(visibility: Boolean) {
-        super.hideError(visibility)
         binding.errorRoot.isVisible = visibility
+    }
+
+    override fun showProgress() {
+        TODO("Not yet implemented")
+    }
+
+    override fun hideProgress() {
+        TODO("Not yet implemented")
     }
 }

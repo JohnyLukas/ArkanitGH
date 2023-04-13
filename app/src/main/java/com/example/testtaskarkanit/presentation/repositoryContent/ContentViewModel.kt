@@ -3,7 +3,7 @@ package com.example.testtaskarkanit.presentation.repositoryContent
 import androidx.lifecycle.viewModelScope
 import com.example.testtaskarkanit.data.network.common.NetworkException
 import com.example.testtaskarkanit.domain.model.toUI
-import com.example.testtaskarkanit.domain.usecase.GetRepoContentUseCase
+import com.example.testtaskarkanit.domain.usecase.GetRepoContentFlowUseCase
 import com.example.testtaskarkanit.domain.usecase.GetRepoContentUseCaseParam
 import com.example.testtaskarkanit.presentation.base.BaseViewModel
 import com.example.testtaskarkanit.presentation.model.repoContent.RepoContentItemUI
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ContentViewModel @Inject constructor(
-    private val getRepoContentUseCase: GetRepoContentUseCase
+    private val getRepoContentUseCase: GetRepoContentFlowUseCase
 ) : BaseViewModel() {
     private val _errorNetwork: MutableStateFlow<NetworkException?> = MutableStateFlow(null)
     val errorNetwork: StateFlow<NetworkException?> = _errorNetwork.asStateFlow()

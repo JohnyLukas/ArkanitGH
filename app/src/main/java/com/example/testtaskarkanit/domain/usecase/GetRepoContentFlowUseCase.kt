@@ -1,6 +1,6 @@
 package com.example.testtaskarkanit.domain.usecase
 
-import com.example.testtaskarkanit.data.network.DataSource
+import com.example.testtaskarkanit.data.network.RepositoryDataSource
 import com.example.testtaskarkanit.domain.model.repoContent.RepoContentItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -8,13 +8,13 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Named
 
-class GetRepoContentUseCase @Inject constructor(
-    private val dataSource: DataSource,
+class GetRepoContentFlowUseCase @Inject constructor(
+    private val repositoryDataSource: RepositoryDataSource,
     @Named("IO")
     override val dispatcher: CoroutineDispatcher
-) : BaseUseCase<GetRepoContentUseCaseParam, List<RepoContentItem>> {
+) : BaseFlowUseCase<GetRepoContentUseCaseParam, List<RepoContentItem>> {
     override fun execute(param: GetRepoContentUseCaseParam): Flow<Result<List<RepoContentItem>>> = flow {
-        val responseContent = dataSource.getRepositoryContent(
+        val responseContent = repositoryDataSource.getRepositoryContent(
             owner = param.owner,
             repo = param.repo,
             path = param.path

@@ -6,7 +6,7 @@ import com.example.testtaskarkanit.domain.model.repoContent.RepoContentItem
 import com.example.testtaskarkanit.domain.model.user.User
 import javax.inject.Inject
 
-class DataSource @Inject constructor(
+class RepositoryDataSource @Inject constructor(
     private val gitHubApi: GitHubApi
 ){
     suspend fun getUsers(query: String): User =
