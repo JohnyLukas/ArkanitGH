@@ -1,6 +1,6 @@
 package com.example.testtaskarkanit.domain.usecase
 
-import com.example.testtaskarkanit.data.network.DataSource
+import com.example.testtaskarkanit.data.network.RepositoryDataSource
 import com.example.testtaskarkanit.domain.model.user.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -8,13 +8,13 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Named
 
-class GetListUsersUseCase @Inject constructor(
-    private val dataSource: DataSource,
+class GetListUsersFlowUseCase @Inject constructor(
+    private val repositoryDataSource: RepositoryDataSource,
     @Named("IO")
     override val dispatcher: CoroutineDispatcher
-) : BaseUseCase<GetListUsersUseCaseParam, User> {
+) : BaseFlowUseCase<GetListUsersUseCaseParam, User> {
     override fun execute(param: GetListUsersUseCaseParam): Flow<Result<User>> = flow {
-        val responseUsers = dataSource.getUsers(param.request)
+        val responseUsers = repositoryDataSource.getUsers(param.request)
         emit(Result.success(responseUsers))
     }
 

@@ -1,9 +1,10 @@
 package com.example.testtaskarkanit.presentation.main
 
-import com.example.testtaskarkanit.data.network.common.NetworkException
-
 interface UIStateHandler {
-    fun showError(error: NetworkException){}
+    fun showError(error: ThisFragmentUIState.NetworkError)
 
-    fun hideError(visibility: Boolean) {}
+    fun hideError(visibility: Boolean)
+
+    fun showLoading(visibility: Boolean)
+
 }

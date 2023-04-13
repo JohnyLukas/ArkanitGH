@@ -16,21 +16,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/errorRoot"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#46FFFFFF">
-
-        <ProgressBar
-            android:id="@+id/refreshProgressBar"
-            style="?android:attr/progressBarStyle"
-            android:visibility="gone"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/retryButton"
-            app:layout_constraintEnd_toStartOf="@+id/retryButton"
-            app:layout_constraintTop_toTopOf="@+id/retryButton" />
+        android:background="#46FFFFFF"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/retryButton"
@@ -48,9 +37,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00FFFFFF"
+            android:gravity="center"
             android:text="@string/text_error"
             android:textColor="@color/white"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rootLoading"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#46FFFFFF">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

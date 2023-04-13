@@ -15,6 +15,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.testtaskarkanit.R
 import com.example.testtaskarkanit.databinding.RepositoryContentBinding
 import com.example.testtaskarkanit.presentation.base.BaseFragment
+import com.example.testtaskarkanit.presentation.main.ThisFragmentUIState
 import com.example.testtaskarkanit.presentation.main.UIStateHandler
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -70,11 +71,44 @@ class ContentFragment : BaseFragment(R.layout.repository_content) {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        /*viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.errorNetwork.collect { exception ->
                     exception?.let{ (activity as UIStateHandler).showError(it) }
-                    if (exception == null) (activity as UIStateHandler).hideError(false)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.loadingUIState.collect { visibility ->
+                    visibility?.let { (activity as UIStateHandler).showLoading(it) }
+                }
+            }
+        }*/
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.fragmentUIState.collect { uiState ->
+                    when (uiState) {
+                        is ThisFragmentUIState.Loading -> {
+                            (activity as UIStateHandler).showLoading(true)
+                            (activity as UIStateHandler).hideError(false)
+                        }
+                        is ThisFragmentUIState.Success -> {
+                            (activity as UIStateHandler).showLoading(false)
+                            (activity as UIStateHandler).hideError(false)
+                        }
+                        is ThisFragmentUIState.NetworkError ->
+                            (activity as UIStateHandler).showError(uiState)
+                        else -> (activity as UIStateHandler).showError(
+                            ThisFragmentUIState.NetworkError(
+                                title = "Ops, something went wrong!",
+                                description = "Unknown error",
+                                retryAction = { viewModel.getListContent(args.owner, args.repoName, "") }
+                            )
+                        )
+                    }
                 }
             }
         }
