@@ -2,7 +2,6 @@ package com.example.testtaskarkanit.presentation.search
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.core.view.postDelayed
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -32,7 +31,6 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
         )
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?): Unit = with(binding) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.layoutManager =
@@ -51,7 +49,6 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.errorNetwork.collect { exception ->
                     exception?.let { (activity as UIStateHandler).showError(it) }
-                    if (exception == null) (activity as UIStateHandler).hideError(false)
                 }
             }
         }
@@ -61,14 +58,20 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
                 viewModel.listItems.collect { listItems ->
                     binding.root.postDelayed(2500) {
                         searchAdapter.submitList(listItems)
-                        progressBar.isVisible = false
                     }
                 }
             }
         }
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.loadingUIState.collect { visibility ->
+                    visibility?.let { (activity as UIStateHandler).showLoading(it) }
+                }
+            }
+        }
+
         searchButton.setOnClickListener {
-            progressBar.isVisible = true
             viewModel.checkInputError(searchInput.text.toString())
             viewModel.cleanList()
         }

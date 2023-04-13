@@ -3,7 +3,6 @@ package com.example.testtaskarkanit.presentation.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.isVisible
-import androidx.core.view.postDelayed
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.testtaskarkanit.R
 import com.example.testtaskarkanit.data.network.common.NetworkException
@@ -23,11 +22,8 @@ class MainActivity : AppCompatActivity(), UIStateHandler {
         errorMessageText.text = error.title
         errorRoot.isVisible = true
         retryButton.setOnClickListener {
-            refreshProgressBar.isVisible = true
             error.retryAction.invoke()
-            root.postDelayed(2000) {
-                refreshProgressBar.isVisible = false
-            }
+            errorRoot.isVisible = false
         }
     }
 
@@ -35,11 +31,8 @@ class MainActivity : AppCompatActivity(), UIStateHandler {
         binding.errorRoot.isVisible = visibility
     }
 
-    override fun showProgress() {
-        TODO("Not yet implemented")
+    override fun showLoading(visibility: Boolean) {
+        binding.rootLoading.isVisible = visibility
     }
 
-    override fun hideProgress() {
-        TODO("Not yet implemented")
-    }
 }

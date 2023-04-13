@@ -2,6 +2,7 @@ package com.example.testtaskarkanit.presentation.search
 
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.viewModelScope
+import com.example.testtaskarkanit.R
 import com.example.testtaskarkanit.data.network.common.NetworkException
 import com.example.testtaskarkanit.domain.model.repo.Repo
 import com.example.testtaskarkanit.domain.model.user.User
@@ -28,6 +29,9 @@ class SearchViewModel @Inject constructor(
     private val _errorNetwork: MutableStateFlow<NetworkException?> = MutableStateFlow(null)
     val errorNetwork: StateFlow<NetworkException?> = _errorNetwork.asStateFlow()
 
+    private val _loadingUIState: MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    val loadingUIState: StateFlow<Boolean?> = _loadingUIState.asStateFlow()
+
     private val _listItems: MutableStateFlow<List<ItemsUI>?> = MutableStateFlow(null)
     val listItems: StateFlow<List<ItemsUI>?> = _listItems.asStateFlow()
 
@@ -48,10 +52,6 @@ class SearchViewModel @Inject constructor(
         _listItems.value = null
     }
 
-    private fun discardError() {
-        _errorNetwork.value = null
-    }
-
     private fun mergeFLow(request: String) {
         viewModelScope.launch {
             getListUsersUseCase.invoke(
@@ -63,12 +63,16 @@ class SearchViewModel @Inject constructor(
                 transform = { it: Result<User>, it2: Result<Repo> ->
                     it to it2
                 }
-            ).collect { result: Pair<Result<User>, Result<Repo>> ->
+            ).onStart {
+                _loadingUIState.value = true
+            }.onCompletion {
+                _loadingUIState.value = false
+            }.collect { result: Pair<Result<User>, Result<Repo>> ->
                 result.first.onSuccess { users ->
                     _listItems.value = _listItems.value.orEmpty() + users.items.map { it.toUI() }
                 }.onFailure { throwable ->
                     _errorNetwork.value = NetworkException(
-                        title = throwable.message.toString(),
+                        title = throwable.message ?: R.string.common_error_title.toString(),
                         description = throwable.toString(),
                         retryAction = { checkInputError(request) }
                     )
@@ -77,11 +81,10 @@ class SearchViewModel @Inject constructor(
                     _listItems.value = _listItems.value.orEmpty() + repos.items.map { it.toUI() }
                 }.onFailure { throwable ->
                     _errorNetwork.value = NetworkException(
-                        title = throwable.message.toString(),
+                        title = throwable.message ?: R.string.common_error_title.toString(),
                         description = throwable.toString(),
                         retryAction = {
                             checkInputError(request)
-                            discardError()
                         }
                     )
                 }

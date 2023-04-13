@@ -74,7 +74,14 @@ class ContentFragment : BaseFragment(R.layout.repository_content) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.errorNetwork.collect { exception ->
                     exception?.let{ (activity as UIStateHandler).showError(it) }
-                    if (exception == null) (activity as UIStateHandler).hideError(false)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.loadingUIState.collect { visibility ->
+                    visibility?.let { (activity as UIStateHandler).showLoading(it) }
                 }
             }
         }

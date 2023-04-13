@@ -7,8 +7,6 @@ interface UIStateHandler {
 
     fun hideError(visibility: Boolean)
 
-    fun showProgress()
-
-    fun hideProgress()
+    fun showLoading(visibility: Boolean)
 
 }
